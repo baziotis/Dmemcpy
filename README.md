@@ -16,6 +16,7 @@ it will be (quite) slower. I don't specifically know why this happens (one reaso
 probably is the note below). But certainly, if you are to measure what _actual_ performance
 you get from the assembly code that I wrote, you'd have to put it in an assembler
 and link the object file.
+You can find respective versions in C and ASM here: [opt_memcpy](https://github.com/baziotis/memutils/tree/master/memcpy)
 
 ### Function Prologue and Epilog in ASM functions
 A big bottle-neck on small sizes seem to be the function prologues and epilog. 
@@ -34,7 +35,8 @@ goes badly. In cases where you expect a variable to reside in a register, it get
 It gets worse when variables are used in loops.<br/>
 However, I made a D implementation of a C memcpy I wrote, which you can find in `Dopt_memcpy.d`. This was written in a rush
 and so I did not have much time to explore its capabilities. For the most part it was not very positive.
-Check TODO 2)
+Check TODO 2)<br/>
+You can find respective versions in C and ASM here: [opt_memcpy](https://github.com/baziotis/memutils/tree/master/memcpy)
 
 ### False data dependency and backwards copy
 Explore the cases of false data dependency. According to Agner Fog:<br/>
