@@ -102,17 +102,25 @@ src: ---------------<br/>
 dst:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br/>
 
 And now `src` and `dst` are aligned relative to each other. Another thing to consider is that any reasonable allocator (or compiler
-for stack data) will give pointer aligned to some power of 2, which makes this easier (meaning, faster).
+for stack data) will give pointer aligned to some power of 2, which makes this easier (meaning, faster). This should
+not be a given though (mostly because the user may end up having changed the alignment).
 
 Source: Agner Fog, Subroutine optimization manual: https://www.agner.org/optimize/optimizing_assembly.pdf
 
 ## TODOs
+### Related to performance
 1) Explore `naked`: https://dlang.org/spec/iasm.html#naked to avoid function prologue and epilog.
 2) Explore a regular D implementation, `Dopt_memcpy.d`
 3) Benchmark what happens when `dst` > `src`.
 4) For asm, we only care about > 64 bytes memcpy. Explore `rep movsb` on 64-byte aligned data. In that regard,
 we should also explore the "first align to 64-byte boundary, then rep movsb".
 5) Explore the method in note 6) for when `dst` and `src` are misaligned relative to each other.
+
+### Related to the interface
+6) Add support for dynamic arrays. This requires some trivial assembly to handle <= 64 bytes data, as we can't
+use `static if` because of course the size of copy is only known at runtime.
+7) Related to the above, provide bounds checking and other useful wrappers. Jonathan Marler proposed
+some interesting ideas here: https://forum.dlang.org/thread/qlmiyizrknrirnhdvpbq@forum.dlang.org
 
 ## Compile and Run
 `dmd bench.d Dmemcpy.d -O -inline && ./bench average` (DMD - Optimized and Inlined)
